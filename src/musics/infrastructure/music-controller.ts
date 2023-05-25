@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { GetAllMusics } from "../aplication/GetAllMusicsUseCase";
 
 export class MusicController {
@@ -7,7 +8,7 @@ export class MusicController {
   async getAllMusics(req: Request, res: Response) {
     try {
       const musics = await this.getAllMusicsUseCase.execute();
-      res.status(200).json(musics);
+      res.status(200).send(musics);
     } catch (error) {
       res.status(500).json({ error: "Failed to get musics" });
     }

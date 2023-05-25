@@ -1,21 +1,17 @@
-import { RowDataPacket } from "mysql2/typings/mysql";
-
+import { createPool } from "../../mysql";
 import { GetUser } from "../domain/get-user";
 import { User } from "../domain/user";
-import { pool } from "../../mysql";
 
 export class UserRepository implements GetUser {
   async getById(userId: number): Promise<User | null> {
-    const [connection] = await pool.query("SELECT * FROM users WHERE id = ?",[userId]);
-    const rows: RowDataPacket[] = connection as RowDataPacket[];
-   
-    // Aquí debes usar el método adecuado para liberar la conexión en tu biblioteca de bases de datos
+    const connection = await createPool();
+    const rows: any[] = await connection.query("SELECT * FROM users WHERE id = ?",[userId]);
 
     if (rows.length === 0) {
       return null;
     }
 
-    console.log("Bienvenido", rows); //si tiene datos la consulta, nunca esta vacio
+    console.log("Bienvenido", rows); 
 
     return new User(
       rows[0].id,

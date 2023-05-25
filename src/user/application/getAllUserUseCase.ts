@@ -1,9 +1,9 @@
 import { GetUser } from "../domain/get-user";
 
-export class BienvenidaSender {
+export class GetAllUser {
   constructor(private readonly getUser: GetUser) {}
 
-  async run(userId: number) {
+  async runed(userId: number) {
     const user = await this.getUser.getById(userId);
     if (!user) {
       throw new Error(`user id no encontrado ${userId}`);

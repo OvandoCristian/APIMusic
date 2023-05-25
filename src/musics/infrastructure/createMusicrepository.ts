@@ -1,28 +1,26 @@
-import { RowDataPacket } from "mysql2/typings/mysql";
-
-import { pool } from "../../mysql";
+import { createPool } from "../../mysql";
 import { Music } from "../domain/music";
 import { MusicRepository } from "../domain/music-repository";
 
 export class InMemoryMusicRepository implements MusicRepository {
   async getAll(): Promise<Music[]> {
     console.log("Entered InMemoryMusicRepository getAll");
-    const [result] = await pool.query("SELECT * FROM musics");
-    const musics: RowDataPacket[] = result as RowDataPacket[];
+    const connection = await createPool();
+    const result: any[] = await connection.query("SELECT * FROM musics");
 
-
-    if (musics.length === 0) {
+    if (result.length === 0) {
       return [];
     }
-
-    return musics.map((music) => {
+    const musica: any[] = result[0];
+    console.log(`prueba ${JSON.stringify(musica)}`);
+    return musica.map((music) => {
       return new Music(
         music.id,
         music.title,
         music.genre,
         music.artist,
         music.album,
-        music.duration,
+        music.duration
       );
     });
   }

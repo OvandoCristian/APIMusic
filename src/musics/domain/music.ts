@@ -5,6 +5,6 @@ export class Music {
     readonly genre: string,
     readonly artist: string,
     readonly album: string,
-    readonly duration: string,
+    readonly duration: string
   ) {}
 }
