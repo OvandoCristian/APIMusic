@@ -1,24 +1,29 @@
-import { createPool } from "../../mysql";
+import { getConnection } from "../../database";
 import { GetUser } from "../domain/get-user";
 import { User } from "../domain/user";
 
 export class UserRepository implements GetUser {
   async getById(userId: number): Promise<User | null> {
-    const connection = await createPool();
-    const rows: any[] = await connection.query("SELECT * FROM users WHERE id = ?",[userId]);
+    const connection = await getConnection();
+    const rows: any[] = await connection.query(
+      "SELECT * FROM users WHERE id = ?",
+      [userId]
+    );
+    // Aquí debes usar el método adecuado para liberar la conexión en tu biblioteca de bases de datos
 
     if (rows.length === 0) {
       return null;
     }
 
-    console.log("Bienvenido", rows); 
+    const user = rows[0];
+    console.log("hola", rows[0], user[0].id); //si tiene datos la consulta, nunca esta vacio
 
     return new User(
-      rows[0].id,
-      rows[0].name,
-      rows[0].username,
-      rows[0].password,
-      rows[0].email
+      user[0].id,
+      user[0].name,
+      user[0].username,
+      user[0].password,
+      user[0].email
     );
   }
 }
