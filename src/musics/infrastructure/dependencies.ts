@@ -1,18 +1,18 @@
-import { PostMusic } from "../aplication/CreateMusic";
-import { GetAllMusics } from "../aplication/GetAllMusicsUseCase";
-import { CreateMusicController } from "./createMusic-controller";
-import { InMemoryMusicRepository } from "./createMusicrepository";
-import { MusicController } from "./music-controller";
-import { AddMusicRepository } from "./music-repository";
+import { PostUser } from "../aplication/CreateUser";
+import { GetAllUsers } from "../aplication/GetAllUsersUseCase";
+import { CreateUserController } from "./createUser-controller";
+import { InMemoryUserRepository } from "./createUserRepository";
+import { UserController } from "./user-controller";
+import { AddUserRepository } from "./user-repository";
 
-const musicRepository = new InMemoryMusicRepository();
-const getAllMusicsUseCase = new GetAllMusics(musicRepository);
-const musicController = new MusicController(getAllMusicsUseCase); 
+const userRepository = new InMemoryUserRepository();
+const getAllUsersUseCase = new GetAllUsers(userRepository);
+const userController = new UserController(getAllUsersUseCase); 
 
-export { getAllMusicsUseCase, musicController };
+export { getAllUsersUseCase, userController };
 
-const musicRepositor = new AddMusicRepository();
-const createMusic = new PostMusic(musicRepositor);
-const PostMusicController = new CreateMusicController(createMusic);
+const userRepositor = new AddUserRepository();
+const createUser = new PostUser(userRepositor);
+const PostUserController = new CreateUserController(createUser);
 
-export { createMusic, PostMusicController };
+export { createUser, PostUserController };
